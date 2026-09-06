@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>خدماتي</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#f7f9fc;font-family:-apple-system,BlinkMacSystemFont,"SF Arabic","Segoe UI",sans-serif;color:#14213d}
+.app{max-width:520px;margin:auto;min-height:100vh;padding:24px 18px 92px}
+header{display:flex;justify-content:space-between;align-items:center;margin:8px 0 4px}
+.small{font-size:14px;color:#7b8798}.brand{font-size:30px;font-weight:800;margin-top:3px}
+.bell{width:44px;height:44px;border:0;border-radius:14px;background:white;font-size:19px}
+.subtitle{color:#667085;font-size:14px;margin:0 0 18px}
+.search{display:flex;gap:10px;align-items:center;background:white;border-radius:16px;padding:0 14px;height:54px;box-shadow:0 3px 15px #14213d0a}
+.search input{border:0;outline:0;width:100%;font-size:15px;text-align:right}
+.row{display:flex;justify-content:space-between;align-items:center;margin:25px 0 12px}
+h2{font-size:19px;margin:0}.more{color:#1769e0;font-size:13px}
+.cats{display:flex;gap:10px;overflow:auto;padding-bottom:3px}.cat{min-width:82px;height:88px;border:0;border-radius:18px;background:white;font-size:12px;font-weight:600;color:#344054}.cat b{display:block;font-size:27px;margin-bottom:7px}
+.card{display:flex;align-items:center;gap:12px;background:white;border-radius:18px;padding:14px;margin:10px 0;border:0;width:100%;text-align:right}
+.icon{width:54px;height:54px;border-radius:15px;background:#eef5ff;display:grid;place-items:center;font-size:26px;flex:none}
+.info{flex:1}.service{font-size:16px;font-weight:800}.provider{font-size:12px;color:#667085;margin-top:4px}.rating{font-size:12px;color:#475467;margin-top:6px}.arrow{font-size:27px;color:#98a2b3}
+nav{position:fixed;bottom:12px;left:50%;transform:translateX(-50%);width:min(484px,calc(100% - 24px));background:white;border-radius:20px;padding:9px;display:flex;justify-content:space-around;box-shadow:0 8px 30px #14213d18}
+nav button{border:0;background:transparent;color:#98a2b3;font-size:11px;line-height:19px}nav button.active{color:#1769e0;font-weight:800}
+.toast{position:fixed;top:18px;left:50%;transform:translateX(-50%);background:#14213d;color:white;padding:10px 15px;border-radius:12px;display:none}
+</style>
+</head>
+<body>
+<div class="app">
+<header><div><div class="small">مرحباً 👋</div><div class="brand">خدماتي</div></div><button class="bell" onclick="show('لا توجد إشعارات جديدة 🔔')">🔔</button></header>
+<p class="subtitle">كل الخدمات التي تحتاجها في مكان واحد</p>
+<div class="search">🔎<input id="search" placeholder="ابحث عن خدمة..." oninput="filterServices()"></div>
+<div class="row"><h2>التصنيفات</h2><span class="more">عرض الكل</span></div>
+<div class="cats">
+<button class="cat" onclick="pick('صيانة')"><b>🔧</b>صيانة</button>
+<button class="cat" onclick="pick('تنظيف')"><b>🧹</b>تنظيف</button>
+<button class="cat" onclick="pick('تقنية')"><b>💻</b>تقنية</button>
+<button class="cat" onclick="pick('نقل')"><b>🚚</b>نقل</button>
+<button class="cat" onclick="pick('تصميم')"><b>🎨</b>تصميم</button>
+<button class="cat" onclick="pick('تعليم')"><b>📚</b>تعليم</button>
+</div>
+<div class="row"><h2>خدمات مميزة</h2><span class="more">عرض الكل</span></div>
+<div id="services">
+<button class="card" onclick="show('تم اختيار: صيانة مكيفات')"><div class="icon">🛠️</div><div class="info"><div class="service">صيانة مكيفات</div><div class="provider">محمد للخدمات</div><div class="rating">⭐ 4.9 · من 150 أوقية</div></div><span class="arrow">‹</span></button>
+<button class="card" onclick="show('تم اختيار: تنظيف المنازل')"><div class="icon">🧹</div><div class="info"><div class="service">تنظيف المنازل</div><div class="provider">النظافة السريعة</div><div class="rating">⭐ 4.8 · من 100 أوقية</div></div><span class="arrow">‹</span></button>
+<button class="card" onclick="show('تم اختيار: تصميم شعار')"><div class="icon">🎨</div><div class="info"><div class="service">تصميم شعار</div><div class="provider">استوديو الإبداع</div><div class="rating">⭐ 5.0 · من 300 أوقية</div></div><span class="arrow">‹</span></button>
+</div>
+</div>
+<nav>
+<button class="active">🏠<br>الرئيسية</button><button onclick="show('صفحة طلباتي قادمة')">📋<br>طلباتي</button><button onclick="show('المحادثات قادمة')">💬<br>المحادثات</button><button onclick="show('الحساب قادم')">👤<br>حسابي</button>
+</nav>
+<div id="toast" class="toast"></div>
+<script>
+function show(t){let x=document.getElementById('toast');x.textContent=t;x.style.display='block';clearTimeout(window.tt);window.tt=setTimeout(()=>x.style.display='none',1800)}
+function pick(t){document.getElementById('search').value=t;filterServices()}
+function filterServices(){let q=document.getElementById('search').value.trim();document.querySelectorAll('#services .card').forEach(c=>c.style.display=!q||c.innerText.includes(q)?'flex':'none')}
+</script>
+</body></html>
